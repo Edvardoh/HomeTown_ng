@@ -1,1 +1,1 @@
-angular.module('MainModule').controller('MainController', function() {});
+angular.module('HomeTown').controller('MainController', function() {});

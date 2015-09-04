@@ -33,7 +33,7 @@ var jsFilesToInject = [
   'js/dependencies/**/*.js',
 
   //Angular modules need to be loaded before controllers
-  'js/public/MainModule.js',
+  'js/public/HomeTown.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
