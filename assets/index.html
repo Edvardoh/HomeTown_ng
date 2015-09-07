@@ -19,21 +19,51 @@
     <div class="container hometown-main">
       <div class="row widget-row">
         <div class="whiteboard widget col-md-4">
-          Whiteboard
+          <h5>Whiteboard</h5>
         </div>
         <div class="local-deals widget col-md-8">
-          Best of the Neighborhood
+          <h5>Best of the Neighborhood</h5>
         </div>
       </div>
       <div class="row widget-row">
         <div class="live-music widget col-md-4">
-          Live Music
+          <h5>Live Music</h5>
+          <table>
+            <tr ng-repeat="show in showsList">
+              <td class="show-day {{show.day}}">
+                <span>
+                  {{show.day}}
+                </span>
+              </td>
+              <td class="show-summary">
+                <span class="show-details">
+                  {{show.artist}} | {{show.venue}} | {{show.time}}
+                </span>
+                <span class="show-tickets">
+                  <a href="{{show.ticketURL}}">Tickets</a>
+                </span>
+              </td>
+              <td class="show-image">
+                <i class="fa fa-picture-o"></i>
+              </td>
+            </tr>
+          </table>
         </div>
         <div class="adventures widget col-md-4">
-          Adventures
+          <h5>Adventures</h5>
         </div>
         <div class="weather widget col-md-4">
-          Philadelphia Weather
+          <h5>Philadelphia Weather</h5>
+          <table>
+            <tr ng-repeat="hour in forecast">
+              <td class="weather-hour-time">
+                {{hour.time | date:"EEEE 'at' h a"}}
+              </td>
+              <td class="weather-hour-temperature">
+                {{hour.temperature}} &deg;F
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
