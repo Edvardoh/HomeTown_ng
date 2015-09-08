@@ -1,1 +1,1 @@
-angular.module('HomeTown', []);
+angular.module('HomeTown', ['uiGmapgoogle-maps']);
