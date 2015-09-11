@@ -16,6 +16,70 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 		}
 	};
 
+	//region deals dummy maps
+	$scope.dealNE = {};
+	$scope.dealNW = {};
+	$scope.dealSE = {};
+	$scope.dealSW = {};
+
+	$scope.dealNE.map = { 
+		center: { 
+			latitude: 39.9694272, 
+			longitude: -75.1320518 
+		}, 
+		zoom: 15 
+	};
+	$scope.dealNE.marker = {
+		idKey: '0000', //TODO this needs to be unique
+		coords: {
+			latitude: 39.9694272, 
+			longitude: -75.1320518
+		}
+	};
+	$scope.dealNW.map = { 
+		center: { 
+			latitude: 39.9692226,
+			longitude: -75.1363571 
+		}, 
+		zoom: 15 
+	};
+	$scope.dealNW.marker = {
+		idKey: '0000', //TODO this needs to be unique
+		coords: {
+			latitude: 39.9692226, 
+			longitude: -75.1363571
+		}
+	};
+	$scope.dealSE.map = { 
+		center: { 
+			latitude: 39.9690635, 
+			longitude: -75.1343178 
+		}, 
+		zoom: 15 
+	};
+	$scope.dealSE.marker = {
+		idKey: '0000', //TODO this needs to be unique
+		coords: {
+			latitude: 39.9690635, 
+			longitude: -75.1343178
+		}
+	};
+	$scope.dealSW.map = { 
+		center: { 
+			latitude: 39.9668116, 
+			longitude: -75.1391375 
+		}, 
+		zoom: 15 
+	};
+	$scope.dealSW.marker = {
+		idKey: '0000', //TODO this needs to be unique
+		coords: {
+			latitude: 39.9668116, 
+			longitude: -75.1391375
+		}
+	};
+	//endregion deals dummy maps
+
 	//TODO Dummy weather API call.. will move into service layer (using lat long for 230 E Girard Ave, Philadelphia, PA 19125 according to Google maps)
 	$http.get('/weather/current?lat=39.9691568&long=-75.1327133') //https://api.forecast.io/forecast/f0f643b626c0788853800bcc4570696a/39.9691568,-75.1327133
      .success(function(response){

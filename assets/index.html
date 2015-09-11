@@ -27,19 +27,75 @@
         <div class="local-deals container widget col-md-8">
           <h5>Best of the Neighborhood</h5>
           <div class="row deal-row">
-            <div class="deal deal-northwest col-md-6">
-              <span>NorthWest</span>
+            <div class="deal deal-northwest container col-md-6">
+              <div class="deal-details col-md-6">
+                <h6 class="deal-title">
+                  First Street Steaks
+                </h6>
+                <p class="deal-tagline">
+                  Free Milkshake
+                </p>
+                <p class="deal-fineprint">
+                  w/ purchase of 1 cheesesteak
+                </p>
+              </div>
+              <ui-gmap-google-map center='dealNW.map.center' zoom='dealNW.map.zoom' class="col-md-6">
+                <ui-gmap-marker idKey="dealNW.marker.idKey" coords="dealNW.marker.coords">
+                </ui-gmap-marker>
+              </ui-gmap-google-map>
             </div>
-            <div class="deal deal-northeast col-md-6">
-              <span>NorthEast</span>
+            <div class="deal deal-northeast container col-md-6">
+              <div class="deal-details col-md-6">
+                <h6 class="deal-title">
+                  Ekta Indian Cuisine
+                </h6>
+                <p class="deal-tagline">
+                  Free Delivery
+                </p>
+                <p class="deal-fineprint">
+                  with $15 or greater purchase
+                </p>
+              </div>
+              <ui-gmap-google-map center='dealNE.map.center' zoom='dealNE.map.zoom' class="col-md-6">
+                <ui-gmap-marker idKey="dealNE.marker.idKey" coords="dealNE.marker.coords">
+                </ui-gmap-marker>
+              </ui-gmap-google-map>
             </div>
           </div>
           <div class="row deal-row">
-            <div class="deal deal-southwest col-md-6">
-              <span>SouthWest</span>
+            <div class="container deal deal-southwest col-md-6">
+              <div class="deal-details col-md-6">
+                <h6 class="deal-title">
+                  Johnny Brendas
+                </h6>
+                <p class="deal-tagline">
+                  Happy Hour 5-7 pm
+                </p>
+                <p class="deal-fineprint">
+                  1/2 off draughts
+                </p>
+              </div>
+              <ui-gmap-google-map center='dealSW.map.center' zoom='dealSW.map.zoom' class="col-md-6">
+                <ui-gmap-marker idKey="dealSW.marker.idKey" coords="dealSW.marker.coords">
+                </ui-gmap-marker>
+              </ui-gmap-google-map>
             </div>
-            <div class="deal deal-southeast col-md-6">
-              <span>SouthEast</span>
+            <div class="deal deal-southeast container col-md-6">
+              <div class="deal-details col-md-6">
+                <h6 class="deal-title">
+                  PYT
+                </h6>
+                <p class="deal-tagline">
+                  Happy Hour 6-8 pm
+                </p>
+                <p class="deal-fineprint">
+                  Also try our famous Dohnut Burger!
+                </p>
+              </div>
+              <ui-gmap-google-map center='dealSE.map.center' zoom='dealSE.map.zoom' class="col-md-6">
+                <ui-gmap-marker idKey="dealSE.marker.idKey" coords="dealSE.marker.coords">
+                </ui-gmap-marker>
+              </ui-gmap-google-map>
             </div>
             </div>
         </div>
