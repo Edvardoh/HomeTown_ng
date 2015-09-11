@@ -1,16 +1,20 @@
+@app-color: #FF8F00;
+@accent-color: #37474F;
+
 html, body {
 	height: 100%;
 
 	.navicon-container {
+		color: @accent-color;
 		position: absolute;
 		font-size: 18px;
-		margin-top: 5px;
+		margin-top: 0px;
 		margin-left: 10px;
 		z-index: 1000;
 
 		&:hover {
 			cursor: pointer;
-			color: lighten(#000, 50%);
+			color: lighten(@accent-color, 15%);
 		}
 	}
 
@@ -22,26 +26,61 @@ html, body {
 			height: 50%;
 
 			.widget {
-				background-color: #fff;
-				border: 1px solid #E0E0E0;
+				background-color: @app-color;
+				border: 1px solid darken(@app-color, 30%);
 				height: 100%;
 				overflow: auto;
 				padding: 0;
 				text-align: center;
 
-				&.live-music {
-					background-color: #7C4DFF;
+				h5 {
+					color: @accent-color;
+					line-height: .4;
+				}
 
-					h5 {
-						color: #fff;
+				&.whiteboard {
+					div {
+						background-color: #fff;
+						border: 1px solid darken(@app-color, 30%);
+						height: 96%;
 					}
+				}
 
+				&.local-deals {
+					.deal-row {
+						height: 47%;
+
+						.deal {
+							background-color: lighten(@app-color, 40%);
+							border: 1px solid darken(@app-color, 30%);
+							height: 100%;
+
+							&.deal-northwest {
+								
+							}
+
+							&.deal-northeast {
+								
+							}
+
+							&.deal-southwest {
+								
+							}
+
+							&.deal-southeast {
+								
+							}
+						}
+					}
+				}
+
+				&.live-music {
 					table {
 						background-color: #fff;
 						width: 100%;
 
 						tr {
-							border: 1px solid #E0E0E0;
+							border: 1px solid darken(@app-color, 30%);
 
 							td {
 								padding: 2px;
@@ -71,18 +110,12 @@ html, body {
 				}
 
 				&.weather {
-					background-color: #2979FF;
-
-					h5 {
-						color: #fff;
-					}
-
 					table {
 						background-color: #fff;
 						width: 100%;
 
 						tr {
-							border: 1px solid #E0E0E0;
+							border: 1px solid darken(@app-color, 30%);
 
 							td {
 								padding: 2px;
@@ -92,12 +125,6 @@ html, body {
 				}
 
 				&.adventures {
-					background-color: #FF3D00;
-
-					h5 {
-						color: #fff;
-					}
-
 					.angular-google-map-container {
 						height: 400px; /*TODO, can we make this a dynamic height??*/
 					}
@@ -107,6 +134,9 @@ html, body {
 	}
 
 	.logo-container {
+		background-color: lighten(@app-color, 40%);
+		border-color: lighten(@app-color, 40%);
+		border-radius: 3px;
 		position: absolute;
 		bottom: 0;
 		right: 0;
@@ -116,9 +146,25 @@ html, body {
 		margin-right: 10px;
 		z-index: 1000;
 
+		span {
+			color: @accent-color;
+		}
+
+		i {
+			color: @app-color;
+		}
+
 		&:hover {
+			background-color: lighten(@app-color, 45%);
 			cursor: pointer;
-			color: lighten(#000, 50%);
+
+			span {
+				color: lighten(@accent-color, 15%);
+			}
+
+			i {
+				color: lighten(@app-color, 15%);
+			}
 		}
 	}
 }
