@@ -3,10 +3,10 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	//TODO dummy map object and marker (coordinates for 230 E Girard Ave Philadelphia, PA 19125)
 	$scope.map = { 
 		center: { 
-			latitude: 39.9691568, 
-			longitude: -75.1327133 
+			latitude: 39.9523882, 
+			longitude: -75.1640233 
 		}, 
-		zoom: 15 
+		zoom: 14 
 	};
 	$scope.marker = {
 		idKey: '0000', //TODO this needs to be unique
@@ -91,6 +91,12 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 
      	$scope.forecast = forecast;
      });
+
+     //dummy Eventful API call
+     /*$http.get('/events/list?app_key=Lqg82zJw6bv2bDG7&location=Philadelphia')
+     	.success(function(response) {
+     		debugger;
+     	});*/
 
 	//TODO temporary dummy data
 	$scope.showsList = [{
