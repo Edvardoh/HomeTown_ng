@@ -13,10 +13,30 @@
 
   <body ng-app="HomeTown" ng-controller="MainController" ng-cloak>
 
+    <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+      <ui-gmap-marker idKey="marker.idKey" coords="marker.coords">
+      </ui-gmap-marker>
+    </ui-gmap-google-map>
+
     <div class="navicon-container">
       <i class="fa fa-bars"></i>
     </div>
 
+    <div class="logo-container">
+      <i class="fa fa-home"></i>
+      <span>HomeTown</span>
+    </div>
+
+    <!--SCRIPTS-->
+    <!--SCRIPTS END-->
+  </body>
+</html>
+
+
+
+
+
+    <!--OLD
     <div class="container hometown-main">
       <div class="row widget-row">
         <div class="whiteboard widget col-md-4">
@@ -146,13 +166,4 @@
         </div>
       </div>
     </div>
-
-    <div class="logo-container">
-      <i class="fa fa-home"></i>
-      <span>HomeTown</span>
-    </div>
-
-    <!--SCRIPTS-->
-    <!--SCRIPTS END-->
-  </body>
-</html>
+    -->

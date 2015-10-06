@@ -1,4 +1,6 @@
 angular.module('HomeTown').controller('MainController', function($scope, $http, $filter) {
+	// allows us to dynamically set the map height (100% css height doesn't work)
+	$scope.window.height = window.innerHeight;
 
 	//TODO dummy map object and marker (coordinates for 230 E Girard Ave Philadelphia, PA 19125)
 	$scope.map = { 
