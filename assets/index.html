@@ -14,7 +14,20 @@
   <body ng-app="HomeTown" ng-controller="MainController" ng-cloak>
 
     <ui-gmap-google-map fullscreen-map center='map.center' zoom='map.zoom' options='map.options'>
-      <ui-gmap-marker idKey="marker.idKey" coords="marker.coords">
+      <ui-gmap-marker 
+                idKey="home.idKey" 
+                coords="home.coords"
+                options="home.options">
+      </ui-gmap-marker>
+      <ui-gmap-marker 
+                idKey="poi1.idKey" 
+                coords="poi1.coords"
+                options="poi1.options">
+      </ui-gmap-marker>
+      <ui-gmap-marker 
+                idKey="poi2.idKey" 
+                coords="poi2.coords"
+                options="poi2.options">
       </ui-gmap-marker>
       <ui-gmap-circle center='c3.center'
                 radius='c3.radius'

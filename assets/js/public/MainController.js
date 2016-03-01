@@ -3,26 +3,49 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	//TODO dummy map object and marker (coordinates for 230 E Girard Ave Philadelphia, PA 19125)
 	$scope.map = { 
 		center: { 
-			latitude: 39.9691568, 
-			longitude: -75.1327133 
+			latitude: 39.972530, 
+			longitude: -75.135993 
 		}, 
-		zoom: 16,
+		zoom: 15,
 		options: {
 			disableDefaultUI: true,
 			zoomControl: true
 		}
 	};
-	$scope.marker = {
+	$scope.home = {
 		idKey: '0000', //TODO this needs to be unique
 		coords: {
-			latitude: 39.9691568, 
-			longitude: -75.1327133
+			latitude: 39.972530, 
+			longitude: -75.135993
+		},
+		options: {
+			icon: 'images/icons/icn-home.svg'
+		}
+	};
+	$scope.poi1 = {
+		idKey: '0001', //TODO this needs to be unique
+		coords: {
+			latitude: 39.971129, 
+			longitude: -75.134159
+		},
+		options: {
+			icon: 'images/icons/icn-briefcase.svg'
+		}
+	};
+	$scope.poi2 = {
+		idKey: '0002', //TODO this needs to be unique
+		coords: {
+			latitude: 39.966512, 
+			longitude: -75.129990
+		},
+		options: {
+			icon: 'images/icons/icn-eye.svg'
 		}
 	};
 	$scope.c1 = {
 		center: {
-			latitude: 39.9691568, 
-			longitude: -75.1327133
+			latitude: 39.972530, 
+			longitude: -75.135993
 		},
 		radius: 335, // average 5 minute walk in meters
 		stroke: {
@@ -37,8 +60,8 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	};
 	$scope.c2 = {
 		center: {
-			latitude: 39.9691568, 
-			longitude: -75.1327133
+			latitude: 39.972530, 
+			longitude: -75.135993
 		},
 		radius: 670, // average 10 minute walk in meters
 		stroke: {
@@ -53,8 +76,8 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	};
 	$scope.c3 = {
 		center: {
-			latitude: 39.9691568, 
-			longitude: -75.1327133
+			latitude: 39.972530, 
+			longitude: -75.135993
 		},
 		radius: 995, // average 15 minute walk in meters
 		stroke: {
