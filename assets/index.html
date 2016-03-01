@@ -13,15 +13,45 @@
 
   <body ng-app="HomeTown" ng-controller="MainController" ng-cloak>
 
-    <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+    <ui-gmap-google-map fullscreen-map center='map.center' zoom='map.zoom' options='map.options'>
       <ui-gmap-marker idKey="marker.idKey" coords="marker.coords">
       </ui-gmap-marker>
+      <ui-gmap-circle center='c3.center'
+                radius='c3.radius'
+                fill='c3.fill'
+                stroke='c3.stroke'>
+      </ui-gmap-circle>
+      <ui-gmap-circle center='c2.center'
+                radius='c2.radius'
+                fill='c2.fill'
+                stroke='c2.stroke'>
+      </ui-gmap-circle>
+      <ui-gmap-circle center='c1.center'
+                radius='c1.radius'
+                fill='c1.fill'
+                stroke='c1.stroke'>
+      </ui-gmap-circle>
     </ui-gmap-google-map>
-
+<!--
     <div class="navicon-container">
       <i class="fa fa-bars"></i>
     </div>
-
+-->
+<!--
+    <div class="toggle-container">
+      <table>
+        <tr>
+          <td class="toggle-cell 5-min-walk">
+            <object type="image/svg+xml" data="images/icons/icn-walk.svg" class="icn-walk"></object>
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </table>
+    </div>
+-->
     <div class="logo-container">
       <i class="fa fa-home"></i>
       <span>HomeTown</span>

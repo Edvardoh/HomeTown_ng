@@ -4,17 +4,37 @@
 
 html, body {
 	height: 100%;
+    width: 100%;
+    margin: 0px;
 
-	.angular-google-map-container {
-		height: 600px; /*TODO, can we make this a dynamic height??*/
+	.angular-google-map {
+		height: 100%;
+        width: 100%;
+        margin: 0px;
+        position: relative;
+
+        .angular-google-map-container {
+        	position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
 	}
 
 	.navicon-container {
+		background-color: lighten(@app-color, 40%);
+		border-color: lighten(@app-color, 40%);
 		color: @accent-color;
 		position: absolute;
+		top: 0;
+		left: 0;
 		font-size: 18px;
-		margin-top: 0px;
-		margin-left: 10px;
+		margin-top: 3px;
+		margin-left: 6px;
+		border-radius: 1px;
+		padding: 0 6px;
+
 		z-index: 1000;
 
 		&:hover {
@@ -23,130 +43,27 @@ html, body {
 		}
 	}
 
-	.container.hometown-main {
-		height: 100%;
-		width: 100%;
+	.toggle-container {
+		height: 50px;
+		width: 250px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin-top: 3px;
+		margin-right: 6px;
+		border-radius: 1px;
+		z-index: 1000;
+		background-color: #fff;
 
-		.widget-row {
-			height: 50%;
+		.toggle-cell {
+			.icn-walk {
+				height: 32px;
+				width: 32px;
+			}
 
-			.widget {
-				background-color: @app-color;
-				border: 1px solid darken(@app-color, 30%);
-				height: 100%;
-				overflow: auto;
-				padding: 0;
-				text-align: center;
-
-				h5 {
-					color: @heading-color;
-					line-height: .4;
-				}
-
-				&.whiteboard {
-					div {
-						background-color: #fff;
-						border: 1px solid darken(@app-color, 30%);
-						height: 96%;
-					}
-				}
-
-				&.local-deals {
-					.deal-row {
-						height: 47%;
-
-						.deal {
-							background-color: lighten(@app-color, 40%);
-							border: 1px solid darken(@app-color, 30%);
-							height: 100%;
-							padding: 0;
-
-							&.deal-northwest, &.deal-southwest {
-								left: 10px;
-							}
-
-							.deal-details {
-								height: 100%;
-								padding: 0;
-
-								.deal-title {
-									font-weight: bold;
-									font-size: 16px;
-								}
-
-								.deal-tagline {
-									color: #4CAF50;
-									font-weight: bold;
-								}
-
-								.deal-fineprint {
-									font-size: 12px;
-								}
-							}
-
-							ui-gmap-google-map {
-								padding: 0;
-
-								.angular-google-map-container {
-									height: 200px; /*TODO, can we make this a dynamic height??*/;
-								}
-							}
-						}
-					}
-				}
-
-				&.live-music {
-					table {
-						background-color: #fff;
-						width: 100%;
-
-						tr {
-							border: 1px solid darken(@app-color, 30%);
-
-							td {
-								padding: 2px;
-
-								&.show-day {
-									background-color: #263238;
-									color: #fff;
-			    					font-weight: bold;
-
-									&.Today {
-										background-color: #4A148C;
-									}
-								}
-
-								&.show-summary {
-									.show-tickets {
-										display: block;
-									}
-								}
-
-								&.show-image {
-									font-size: 65px;
-								}
-							}
-						}
-					}
-				}
-
-				&.weather {
-					table {
-						background-color: #fff;
-						width: 100%;
-
-						tr {
-							border: 1px solid darken(@app-color, 30%);
-
-							td {
-								padding: 2px;
-							}
-						}
-					}
-				}
-
-				&.adventures {
-					
+			&.5-min-walk {
+				.icn-walk {
+					fill: blue;
 				}
 			}
 		}
@@ -155,14 +72,15 @@ html, body {
 	.logo-container {
 		background-color: lighten(@app-color, 40%);
 		border-color: lighten(@app-color, 40%);
-		border-radius: 3px;
+		border-radius: 1px;
 		position: absolute;
-		bottom: 0;
-		right: 0;
+		padding: 3px;
+		top: 0;
+		left: 0;
 		font-size: 16px;
 		font-weight: bold;
-		margin-bottom: 5px;
-		margin-right: 10px;
+		margin-bottom: 3px;
+		margin-left: 6px;
 		z-index: 1000;
 
 		span {
