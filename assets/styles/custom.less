@@ -22,29 +22,7 @@ html, body {
         }
 	}
 
-	.navicon-container {
-		background-color: lighten(@app-color, 40%);
-		border-color: lighten(@app-color, 40%);
-		color: @accent-color;
-		position: absolute;
-		top: 0;
-		left: 0;
-		font-size: 18px;
-		margin-top: 3px;
-		margin-left: 6px;
-		border-radius: 1px;
-		padding: 0 6px;
-
-		z-index: 1000;
-
-		&:hover {
-			cursor: pointer;
-			color: lighten(@accent-color, 15%);
-		}
-	}
-
-	.toggle-container {
-		height: 50px;
+	.control-panel {
 		width: 250px;
 		position: absolute;
 		top: 0;
@@ -55,16 +33,41 @@ html, body {
 		z-index: 1000;
 		background-color: #fff;
 
-		.toggle-cell {
-			.icn-walk {
-				height: 32px;
-				width: 32px;
-			}
+		table {
+			.parent-cell {
+				padding: 10px 0 10px 20px;
 
-			&.5-min-walk {
-				.icn-walk {
-					fill: blue;
+				.icon.settings {
+					font-size: 20px;
+
+					&:hover {
+						cursor: pointer;
+						color: lighten(@accent-color, 15%);
+					}
 				}
+
+				.icon.marker-circle {
+					height: 30px;
+				    width: 30px;
+				    background-color: #E0E0E0;
+				    border: 2px solid #bdbdbd;
+				    border-radius: 15px;
+
+				    &:hover {
+				    	cursor: pointer;
+				    	opacity: .7;
+				    }
+				}
+			}
+		}
+
+		.control-details {
+			display: none;
+			height: 100px;
+			width: 250px;
+
+			&.visible {
+				display: block;
 			}
 		}
 	}

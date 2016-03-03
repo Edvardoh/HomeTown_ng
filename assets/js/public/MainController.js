@@ -151,6 +151,14 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
         }
 	};
 
+	$scope.parentMarkerCircleClick = function() {
+		if($scope.markerVisibility == 'visible') {
+			$scope.markerVisibility = 'invisible';
+		} else {
+			$scope.markerVisibility = 'visible';
+		}
+	}
+
 
 /*
 	//TODO Dummy weather API call.. will move into service layer (using lat long for 230 E Girard Ave, Philadelphia, PA 19125 according to Google maps)
