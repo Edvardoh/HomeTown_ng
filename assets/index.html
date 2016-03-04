@@ -14,12 +14,13 @@
   <body ng-app="HomeTown" ng-controller="MainController" ng-cloak>
 
     <ui-gmap-google-map fullscreen-map center='map.center' zoom='map.zoom' options='map.options'>
-      <!--
+
       <ui-gmap-marker 
                 idKey="home.idKey" 
                 coords="home.coords"
                 options="home.options">
       </ui-gmap-marker>
+      <!-- TODO
       <ui-gmap-marker 
                 idKey="poi1.idKey" 
                 coords="poi1.coords"
@@ -30,22 +31,32 @@
                 coords="poi2.coords"
                 options="poi2.options">
       </ui-gmap-marker>
-      <ui-gmap-circle center='c3.center'
-                radius='c3.radius'
-                fill='c3.fill'
-                stroke='c3.stroke'>
-      </ui-gmap-circle>
-      <ui-gmap-circle center='c2.center'
-                radius='c2.radius'
-                fill='c2.fill'
-                stroke='c2.stroke'>
-      </ui-gmap-circle>
-      <ui-gmap-circle center='c1.center'
+      -->
+
+      <ui-gmap-circle 
+                center='c1.center'
                 radius='c1.radius'
                 fill='c1.fill'
-                stroke='c1.stroke'>
+                stroke='c1.stroke'
+                visible="circleVisibile5min"
+                clickable="false">
       </ui-gmap-circle>
-      -->
+      <ui-gmap-circle 
+                center='c2.center'
+                radius='c2.radius'
+                fill='c2.fill'
+                stroke='c2.stroke'
+                visible="circleVisibile10min"
+                clickable="false">
+      </ui-gmap-circle>
+      <ui-gmap-circle 
+                center='c3.center'
+                radius='c3.radius'
+                fill='c3.fill'
+                stroke='c3.stroke'
+                visible="circleVisibile15min"
+                clickable="false">
+      </ui-gmap-circle>
     </ui-gmap-google-map>
 
     <div class="control-panel">
@@ -55,7 +66,7 @@
             <i class="fa fa-bars icon settings"></i>
           </td>
           <td class="parent-cell">
-            <div ng-click="parentMarkerCircleClick()" class="icon marker-circle parent-marker"></div>
+            <div ng-click="parentMarkerCircleClick()" class="grey icon marker-circle parent-marker"></div>
           </td>
           <td>
           </td>
@@ -64,7 +75,32 @@
         </tr>
       </table>
       <div ng-class="markerVisibility" class="control-details marker-circle-details">
-      
+        <table>
+          <tr ng-class="selected5min" ng-click="markerCircleSelect5min()" class="marker-circle-row">
+            <td class="first">
+              <div class="blue icon marker-circle"></div>
+            </td>
+            <td class="last">
+              <span>5 min walk</span>
+            </td>
+          </tr>
+          <tr ng-class="selected10min" ng-click="markerCircleSelect10min()" class="marker-circle-row">
+            <td class="first">
+              <div class="green icon marker-circle"></div>
+            </td>
+            <td class="last">
+              <span>10 min walk</span>
+            </td>
+          </tr>
+          <tr ng-class="selected15min" ng-click="markerCircleSelect15min()" class="marker-circle-row">
+            <td class="first">
+              <div class="orange icon marker-circle"></div>
+            </td>
+            <td class="last">
+              <span>15 min walk</span>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
 

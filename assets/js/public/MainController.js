@@ -1,6 +1,9 @@
 angular.module('HomeTown').controller('MainController', function($scope, $http, $filter, uiGmapIsReady) {
 	//TODO dummy map object and marker (coordinates for 230 E Girard Ave Philadelphia, PA 19125)
 	
+	/* 
+	//TODO disabling for now, will bring in route functionality in next control panel update
+
 	uiGmapIsReady.promise(1).then(function(instances) {
 		// note direction service cannot process TRANSIT requests with multiple waypoints, need to break up into multiple requests
         instances.forEach(function(inst) {
@@ -60,6 +63,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 			});
         });
     });
+	*/
 
 	$scope.map = { 
 		center: { 
@@ -151,6 +155,11 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
         }
 	};
 
+	//region map circle toggle
+	$scope.circleVisibile5min = false;
+	$scope.circleVisibile10min = false;
+	$scope.circleVisibile15min = false;
+
 	$scope.parentMarkerCircleClick = function() {
 		if($scope.markerVisibility == 'visible') {
 			$scope.markerVisibility = 'invisible';
@@ -158,6 +167,34 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 			$scope.markerVisibility = 'visible';
 		}
 	}
+	$scope.markerCircleSelect5min = function() {
+		if($scope.circleVisibile5min) {
+			$scope.circleVisibile5min = false;
+			$scope.selected5min = 'unselected';
+		} else {
+			$scope.circleVisibile5min = true;
+			$scope.selected5min = 'selected';
+		}
+	}
+	$scope.markerCircleSelect10min = function() {
+		if($scope.circleVisibile10min) {
+			$scope.circleVisibile10min = false;
+			$scope.selected10min = 'unselected';
+		} else {
+			$scope.circleVisibile10min = true;
+			$scope.selected10min = 'selected';
+		}
+	}
+	$scope.markerCircleSelect15min = function() {
+		if($scope.circleVisibile15min) {
+			$scope.circleVisibile15min = false;
+			$scope.selected15min = 'unselected';
+		} else {
+			$scope.circleVisibile15min = true;
+			$scope.selected15min = 'selected';
+		}
+	}
+	//endregion map circle toggle
 
 
 /*

@@ -1,6 +1,10 @@
 @app-color: #3D5AFE;
 @accent-color: #37474F;
 @heading-color: #FFF3E0;
+@grey: #E0E0E0;
+@blue: #2196F3;
+@green: #66BB6A;
+@orange: #FF9800;
 
 html, body {
 	height: 100%;
@@ -20,6 +24,50 @@ html, body {
             right: 0;
             left: 0;
         }
+	}
+
+	/*region map markers and overlays*/
+	.gmap-circle {
+		display: none;
+
+		&.visible {
+			display: inherit;
+		}
+	}
+	/*endregion map markers and overlays*/
+
+	/*region control panel*/
+
+	.icon.marker-circle {
+		height: 20px;
+	    width: 20px;
+	    border: 2px solid;
+	    border-radius: 10px;
+
+	    &:hover {
+	    	cursor: pointer;
+	    	opacity: .7;
+	    }
+
+	    &.grey {
+	    	background-color: @grey;
+	    	border-color: darken(@grey, 15%);
+	    }
+
+	    &.blue {
+	    	background-color: @blue;
+	    	border-color: darken(@blue, 15%);
+	    }
+
+	    &.green {
+	    	background-color: @green;
+	    	border-color: darken(@green, 15%);
+	    }
+
+	    &.orange {
+	    	background-color: @orange;
+	    	border-color: darken(@orange, 15%);
+	    }
 	}
 
 	.control-panel {
@@ -45,32 +93,50 @@ html, body {
 						color: lighten(@accent-color, 15%);
 					}
 				}
-
-				.icon.marker-circle {
-					height: 30px;
-				    width: 30px;
-				    background-color: #E0E0E0;
-				    border: 2px solid #bdbdbd;
-				    border-radius: 15px;
-
-				    &:hover {
-				    	cursor: pointer;
-				    	opacity: .7;
-				    }
-				}
 			}
 		}
 
 		.control-details {
+			border-top: 1px solid #bdbdbd;
 			display: none;
-			height: 100px;
 			width: 250px;
 
 			&.visible {
 				display: block;
 			}
+
+			table tr{
+				height: 30px;
+
+				&:hover {
+					opacity: .8;
+					cursor: pointer;
+					background-color: #e4e4e4;
+				}
+
+				td.first {
+					width: 50px;
+
+					.icon {
+						margin: auto;
+					}
+				}
+
+				td.last {
+					padding-left: 10px;
+    				width: 200px;
+				}
+
+				&.marker-circle-row {
+					&.selected {
+						background-color: #e4e4e4;
+					}
+				}
+			}
 		}
 	}
+
+	/*endregion control panel*/
 
 	.logo-container {
 		background-color: lighten(@app-color, 40%);
