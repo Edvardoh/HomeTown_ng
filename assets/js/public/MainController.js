@@ -1,6 +1,100 @@
 angular.module('HomeTown').controller('MainController', function($scope, $http, $filter, uiGmapIsReady) {
 	//TODO dummy map object and marker (coordinates for 230 E Girard Ave Philadelphia, PA 19125)
 	
+	//region scope object definitions
+	$scope.map = { 
+		center: { 
+			latitude: 39.972530, 
+			longitude: -75.135993 
+		}, 
+		zoom: 15,
+		options: {
+			disableDefaultUI: true,
+			zoomControl: true
+		}
+	};
+	$scope.home = {
+		idKey: '0000', //TODO this needs to be unique
+		coords: {
+			latitude: 39.972530, 
+			longitude: -75.135993
+		},
+		options: {
+			icon: 'images/icons/icn-home.svg'
+		}
+	};
+	$scope.poi1 = {
+		idKey: '0001', //TODO this needs to be unique
+		coords: {
+			latitude: 39.971129, 
+			longitude: -75.134159
+		},
+		options: {
+			icon: 'images/icons/icn-briefcase.svg',
+			visible: false
+		}
+	};
+	$scope.poi2 = {
+		idKey: '0002', //TODO this needs to be unique
+		coords: {
+			latitude: 39.966512, 
+			longitude: -75.129990
+		},
+		options: {
+			icon: 'images/icons/icn-eye.svg',
+			visible: false
+		}
+	};
+	$scope.c1 = {
+		center: {
+			latitude: 39.972530, 
+			longitude: -75.135993
+		},
+		radius: 335, // average 5 minute walk in meters
+		stroke: {
+            color: '#2196F3',
+            weight: 1,
+            opacity: 0.8
+        },
+        fill: {
+            color: '#2196F3',
+            opacity: 0.1
+        }
+	};
+	$scope.c2 = {
+		center: {
+			latitude: 39.972530, 
+			longitude: -75.135993
+		},
+		radius: 670, // average 10 minute walk in meters
+		stroke: {
+            color: '#4CAF50',
+            weight: 1,
+            opacity: 0.8
+        },
+        fill: {
+            color: '#4CAF50',
+            opacity: 0.1
+        }
+	};
+	$scope.c3 = {
+		center: {
+			latitude: 39.972530, 
+			longitude: -75.135993
+		},
+		radius: 995, // average 15 minute walk in meters
+		stroke: {
+            color: '#FF9800',
+            weight: 1,
+            opacity: 0.8
+        },
+        fill: {
+            color: '#FF9800',
+            opacity: 0.1
+        }
+	};
+	//endregion scope object definitions
+
 	/* 
 	//TODO disabling for now, will bring in route functionality in next control panel update
 
@@ -65,136 +159,80 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
     });
 	*/
 
-	$scope.map = { 
-		center: { 
-			latitude: 39.972530, 
-			longitude: -75.135993 
-		}, 
-		zoom: 15,
-		options: {
-			disableDefaultUI: true,
-			zoomControl: true
-		}
-	};
-	$scope.home = {
-		idKey: '0000', //TODO this needs to be unique
-		coords: {
-			latitude: 39.972530, 
-			longitude: -75.135993
-		},
-		options: {
-			icon: 'images/icons/icn-home.svg'
-		}
-	};
-	$scope.poi1 = {
-		idKey: '0001', //TODO this needs to be unique
-		coords: {
-			latitude: 39.971129, 
-			longitude: -75.134159
-		},
-		options: {
-			icon: 'images/icons/icn-briefcase.svg'
-		}
-	};
-	$scope.poi2 = {
-		idKey: '0002', //TODO this needs to be unique
-		coords: {
-			latitude: 39.966512, 
-			longitude: -75.129990
-		},
-		options: {
-			icon: 'images/icons/icn-eye.svg'
-		}
-	};
-	$scope.c1 = {
-		center: {
-			latitude: 39.972530, 
-			longitude: -75.135993
-		},
-		radius: 335, // average 5 minute walk in meters
-		stroke: {
-            color: '#2196F3',
-            weight: 1,
-            opacity: 0.8
-        },
-        fill: {
-            color: '#2196F3',
-            opacity: 0.1
-        }
-	};
-	$scope.c2 = {
-		center: {
-			latitude: 39.972530, 
-			longitude: -75.135993
-		},
-		radius: 670, // average 10 minute walk in meters
-		stroke: {
-            color: '#4CAF50',
-            weight: 1,
-            opacity: 0.8
-        },
-        fill: {
-            color: '#4CAF50',
-            opacity: 0.1
-        }
-	};
-	$scope.c3 = {
-		center: {
-			latitude: 39.972530, 
-			longitude: -75.135993
-		},
-		radius: 995, // average 15 minute walk in meters
-		stroke: {
-            color: '#FF9800',
-            weight: 1,
-            opacity: 0.8
-        },
-        fill: {
-            color: '#FF9800',
-            opacity: 0.1
-        }
-	};
-
 	//region map circle toggle
-	$scope.circleVisibile5min = false;
-	$scope.circleVisibile10min = false;
-	$scope.circleVisibile15min = false;
+	$scope.walkRadiusVisibile5min = false;
+	$scope.walkRadiusVisibile10min = false;
+	$scope.walkRadiusVisibile15min = false;
 
-	$scope.parentMarkerCircleClick = function() {
-		if($scope.markerVisibility == 'visible') {
-			$scope.markerVisibility = 'invisible';
+	$scope.parentWalkRadiusClick = function() {
+		//first make all other detail panels invisible
+		$scope.mapMarkerDetailsVisibility = 'invisible';
+
+		if($scope.walkRadiusDetailsVisibility == 'visible') {
+			$scope.walkRadiusDetailsVisibility = 'invisible';
 		} else {
-			$scope.markerVisibility = 'visible';
+			$scope.walkRadiusDetailsVisibility = 'visible';
 		}
 	}
-	$scope.markerCircleSelect5min = function() {
-		if($scope.circleVisibile5min) {
-			$scope.circleVisibile5min = false;
+	$scope.walkRadius5minSelect = function() {
+		if($scope.walkRadiusVisibile5min) {
+			$scope.walkRadiusVisibile5min = false;
 			$scope.selected5min = 'unselected';
 		} else {
-			$scope.circleVisibile5min = true;
+			$scope.walkRadiusVisibile5min = true;
 			$scope.selected5min = 'selected';
 		}
 	}
-	$scope.markerCircleSelect10min = function() {
-		if($scope.circleVisibile10min) {
-			$scope.circleVisibile10min = false;
+	$scope.walkRadius10minSelect = function() {
+		if($scope.walkRadiusVisibile10min) {
+			$scope.walkRadiusVisibile10min = false;
 			$scope.selected10min = 'unselected';
 		} else {
-			$scope.circleVisibile10min = true;
+			$scope.walkRadiusVisibile10min = true;
 			$scope.selected10min = 'selected';
 		}
 	}
-	$scope.markerCircleSelect15min = function() {
-		if($scope.circleVisibile15min) {
-			$scope.circleVisibile15min = false;
+	$scope.walkRadius15minSelect = function() {
+		if($scope.walkRadiusVisibile15min) {
+			$scope.walkRadiusVisibile15min = false;
 			$scope.selected15min = 'unselected';
 		} else {
-			$scope.circleVisibile15min = true;
+			$scope.walkRadiusVisibile15min = true;
 			$scope.selected15min = 'selected';
 		}
 	}
 	//endregion map circle toggle
+
+	//region map marker toggle
+	$scope.parentMapMarkerClicked = function() {
+		//first make all other detail panels invisible
+		$scope.walkRadiusDetailsVisibility = 'invisible';
+
+		if($scope.mapMarkerDetailsVisibility == 'visible') {
+			$scope.mapMarkerDetailsVisibility = 'invisible';
+		} else {
+			$scope.mapMarkerDetailsVisibility = 'visible';
+		}
+	}
+	$scope.shoppingMarkerSelect = function() {
+		if($scope.poi1.options.visible) {
+			$scope.poi1.options.visible = false;
+			$scope.selectedShopping = 'unselected';
+		} else {
+			$scope.poi1.options.visible = true;
+			$scope.selectedShopping = 'selected';
+		}
+	}
+	$scope.sightsMarkerSelect = function() {
+		if($scope.poi2.options.visible) {
+			$scope.poi2.options.visible = false;
+			$scope.selectedSights = 'unselected';
+		} else {
+			$scope.poi2.options.visible = true;
+			$scope.selectedSights = 'selected';
+		}
+	}
+	//endregion map marker toggle
 
 
 /*

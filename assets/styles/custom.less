@@ -85,7 +85,7 @@ html, body {
 			.parent-cell {
 				padding: 10px 0 10px 20px;
 
-				.icon.settings {
+				.icon {
 					font-size: 20px;
 
 					&:hover {
@@ -114,23 +114,24 @@ html, body {
 					background-color: #e4e4e4;
 				}
 
+				&.selected {
+					background-color: #e4e4e4;
+				}
+
 				td.first {
 					width: 50px;
 
 					.icon {
 						margin: auto;
+						display: block;
+						width: 20px;
+						font-size: 20px;
 					}
 				}
 
 				td.last {
 					padding-left: 10px;
     				width: 200px;
-				}
-
-				&.marker-circle-row {
-					&.selected {
-						background-color: #e4e4e4;
-					}
 				}
 			}
 		}

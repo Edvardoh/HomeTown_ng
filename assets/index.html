@@ -20,7 +20,7 @@
                 coords="home.coords"
                 options="home.options">
       </ui-gmap-marker>
-      <!-- TODO
+      
       <ui-gmap-marker 
                 idKey="poi1.idKey" 
                 coords="poi1.coords"
@@ -31,14 +31,13 @@
                 coords="poi2.coords"
                 options="poi2.options">
       </ui-gmap-marker>
-      -->
 
       <ui-gmap-circle 
                 center='c1.center'
                 radius='c1.radius'
                 fill='c1.fill'
                 stroke='c1.stroke'
-                visible="circleVisibile5min"
+                visible="walkRadiusVisibile5min"
                 clickable="false">
       </ui-gmap-circle>
       <ui-gmap-circle 
@@ -46,7 +45,7 @@
                 radius='c2.radius'
                 fill='c2.fill'
                 stroke='c2.stroke'
-                visible="circleVisibile10min"
+                visible="walkRadiusVisibile10min"
                 clickable="false">
       </ui-gmap-circle>
       <ui-gmap-circle 
@@ -54,7 +53,7 @@
                 radius='c3.radius'
                 fill='c3.fill'
                 stroke='c3.stroke'
-                visible="circleVisibile15min"
+                visible="walkRadiusVisibile15min"
                 clickable="false">
       </ui-gmap-circle>
     </ui-gmap-google-map>
@@ -66,17 +65,19 @@
             <i class="fa fa-bars icon settings"></i>
           </td>
           <td class="parent-cell">
-            <div ng-click="parentMarkerCircleClick()" class="grey icon marker-circle parent-marker"></div>
+            <i ng-click="parentMapMarkerClicked()" class="fa fa-map-marker icon parent-marker"></i>
           </td>
-          <td>
+          <td class="parent-cell">
+            <div ng-click="parentWalkRadiusClick()" class="grey icon marker-circle parent-marker"></div>
           </td>
           <td>
           </td>
         </tr>
       </table>
-      <div ng-class="markerVisibility" class="control-details marker-circle-details">
+      
+      <div ng-class="walkRadiusDetailsVisibility" class="control-details marker-circle-details">
         <table>
-          <tr ng-class="selected5min" ng-click="markerCircleSelect5min()" class="marker-circle-row">
+          <tr ng-class="selected5min" ng-click="walkRadius5minSelect()">
             <td class="first">
               <div class="blue icon marker-circle"></div>
             </td>
@@ -84,7 +85,7 @@
               <span>5 min walk</span>
             </td>
           </tr>
-          <tr ng-class="selected10min" ng-click="markerCircleSelect10min()" class="marker-circle-row">
+          <tr ng-class="selected10min" ng-click="walkRadius10minSelect()">
             <td class="first">
               <div class="green icon marker-circle"></div>
             </td>
@@ -92,12 +93,33 @@
               <span>10 min walk</span>
             </td>
           </tr>
-          <tr ng-class="selected15min" ng-click="markerCircleSelect15min()" class="marker-circle-row">
+          <tr ng-class="selected15min" ng-click="walkRadius15minSelect()">
             <td class="first">
               <div class="orange icon marker-circle"></div>
             </td>
             <td class="last">
               <span>15 min walk</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div ng-class="mapMarkerDetailsVisibility" class="control-details map-marker-details">
+        <table>
+          <tr ng-class="selectedShopping" ng-click="shoppingMarkerSelect()">
+            <td class="first">
+              <i class="fa fa-briefcase icon"></i>
+            </td>
+            <td class="last">
+              <span>Shopping</span>
+            </td>
+          </tr>
+          <tr ng-class="selectedSights" ng-click="sightsMarkerSelect()">
+            <td class="first">
+              <i class="fa fa-eye icon"></i>
+            </td>
+            <td class="last">
+              <span>Sights</span>
             </td>
           </tr>
         </table>
