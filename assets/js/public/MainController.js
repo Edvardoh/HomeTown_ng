@@ -11,7 +11,8 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 		options: {
 			disableDefaultUI: true,
 			zoomControl: true
-		}
+		},
+		control: {}
 	};
 	$scope.home = {
 		idKey: '0000', //TODO this needs to be unique
@@ -95,69 +96,65 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	};
 	//endregion scope object definitions
 
-	/* 
-	//TODO disabling for now, will bring in route functionality in next control panel update
-
-	uiGmapIsReady.promise(1).then(function(instances) {
+	//region route definitions
+	$scope.historicPhiladelphia = function(map) {
+		//TODO really need to clean up markers to make route appear more seamless
 		// note direction service cannot process TRANSIT requests with multiple waypoints, need to break up into multiple requests
-        instances.forEach(function(inst) {
-            var map = inst.map,
-				directionsService = new google.maps.DirectionsService(),
-				request1 = {
-					origin: '1421 N Howard St, Philadelphia, PA',
-					destination: '126 Elfreths Alley, Philadelphia, PA 19106',
-					travelMode: google.maps.TravelMode.TRANSIT
-				},
-				request2 = {
-					origin: '126 Elfreths Alley, Philadelphia, PA 19106',
-					destination: '520 Chestnut St, Philadelphia, PA 19106',
-					waypoints: [{
-						location: '6th St & Market St, Philadelphia, PA 19106', //liberty bell
-						stopover: true
-					}],
-					optimizeWaypoints: true,
-					travelMode: google.maps.TravelMode.WALKING
-				};
-			directionsDisplay1 = new google.maps.DirectionsRenderer({
-				map: map,
-				suppressMarkers: true
-			});
-			directionsDisplay2 = new google.maps.DirectionsRenderer({
-				map: map,
-				suppressMarkers: true
-			});
+		$scope.directionMarkers = {};
+        var directionsService = new google.maps.DirectionsService(),
+			request1 = {
+				origin: '1421 N Howard St, Philadelphia, PA',
+				destination: '126 Elfreths Alley, Philadelphia, PA 19106',
+				travelMode: google.maps.TravelMode.TRANSIT
+			},
+			request2 = {
+				origin: '126 Elfreths Alley, Philadelphia, PA 19106',
+				destination: '520 Chestnut St, Philadelphia, PA 19106',
+				waypoints: [{
+					location: '6th St & Market St, Philadelphia, PA 19106', //liberty bell
+					stopover: true
+				}],
+				optimizeWaypoints: true,
+				travelMode: google.maps.TravelMode.WALKING
+			};
+		$scope.directionsDisplay1 = new google.maps.DirectionsRenderer({
+			map: map,
+			suppressMarkers: true
+		});
+		$scope.directionsDisplay2 = new google.maps.DirectionsRenderer({
+			map: map,
+			suppressMarkers: true
+		});
 
-			directionsService.route(request1, function(result, status) {
-				if (status == google.maps.DirectionsStatus.OK) {
-		      		directionsDisplay1.setDirections(result);
-		    	}
-			});
-			directionsService.route(request2, function(result, status) {
-				if (status == google.maps.DirectionsStatus.OK) {
-		      		directionsDisplay2.setDirections(result);
-		    	}
+		directionsService.route(request1, function(result, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+	      		$scope.directionsDisplay1.setDirections(result);
+	    	}
+		});
+		directionsService.route(request2, function(result, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+	      		$scope.directionsDisplay2.setDirections(result);
+	    	}
 
-		    	//add markers
-	      		var route = result.routes[0],
-	      		marker = new google.maps.Marker({
-      				position: route.legs[0].start_location,
+	    	//add markers
+      		var route = result.routes[0],
+      		icon = 'images/icons/icn-eye.svg';
+      		$scope.directionMarkers.marker0 = new google.maps.Marker({
+  				position: route.legs[0].start_location,
+  				map: map,
+  				icon: icon
+  			});
+
+      		for(var i=0; i<route.legs.length; i++) {
+      			$scope.directionMarkers['marker' + i+1] = new google.maps.Marker({
+      				position: route.legs[i].end_location,
       				map: map,
       				icon: icon
-      			}),
-      			icon = 'images/icons/icn-eye.svg';
-
-
-	      		for(var i=0; i<route.legs.length; i++) {
-	      			marker = new google.maps.Marker({
-	      				position: route.legs[i].end_location,
-	      				map: map,
-	      				icon: icon
-	      			});
-	      		}
-			});
-        });
-    });
-	*/
+      			});
+      		}
+		});
+    };
+	//endregion route definitions
 
 	//region map circle toggle
 	$scope.walkRadiusVisibile5min = false;
@@ -167,6 +164,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	$scope.parentWalkRadiusClick = function() {
 		//first make all other detail panels invisible
 		$scope.mapMarkerDetailsVisibility = 'invisible';
+		$scope.routeToggleDetailsVisibility = 'invisible';
 
 		if($scope.walkRadiusDetailsVisibility == 'visible') {
 			$scope.walkRadiusDetailsVisibility = 'invisible';
@@ -207,6 +205,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	$scope.parentMapMarkerClicked = function() {
 		//first make all other detail panels invisible
 		$scope.walkRadiusDetailsVisibility = 'invisible';
+		$scope.routeToggleDetailsVisibility = 'invisible';
 
 		if($scope.mapMarkerDetailsVisibility == 'visible') {
 			$scope.mapMarkerDetailsVisibility = 'invisible';
@@ -233,6 +232,39 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 		}
 	}
 	//endregion map marker toggle
+
+	//region route toggle
+	$scope.parentRouteToggleClick = function() {
+		//first make all other detail panels invisible
+		$scope.walkRadiusDetailsVisibility = 'invisible';
+		$scope.mapMarkerDetailsVisibility = 'invisible';
+
+		if($scope.routeToggleDetailsVisibility == 'visible') {
+			$scope.routeToggleDetailsVisibility = 'invisible';
+		} else {
+			$scope.routeToggleDetailsVisibility = 'visible';
+		}
+	}
+	$scope.historicRouteSelect = function() {
+		//TODO need a more robust way to toggle routes
+		var map = $scope.map.control.getGMap();
+		
+		if ($scope.selectedHistoricRoute == 'selected') {
+			if(!$scope.directionsDisplay1 || !$scope.directionsDisplay1) return;
+
+			$scope.directionsDisplay1.setMap(null);
+			$scope.directionsDisplay2.setMap(null);
+			for(var marker in $scope.directionMarkers) {
+				$scope.directionMarkers[marker].setMap(null);
+			}
+
+			$scope.selectedHistoricRoute = 'unselected';
+		} else {
+			$scope.historicPhiladelphia(map);
+			$scope.selectedHistoricRoute = 'selected';
+		}
+	}
+	//endregion route toggle
 
 
 /*

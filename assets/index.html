@@ -13,7 +13,7 @@
 
   <body ng-app="HomeTown" ng-controller="MainController" ng-cloak>
 
-    <ui-gmap-google-map fullscreen-map center='map.center' zoom='map.zoom' options='map.options'>
+    <ui-gmap-google-map fullscreen-map center='map.center' zoom='map.zoom' options='map.options' control="map.control">
 
       <ui-gmap-marker 
                 idKey="home.idKey" 
@@ -58,6 +58,7 @@
       </ui-gmap-circle>
     </ui-gmap-google-map>
 
+    <!-- region control panel -->
     <div class="control-panel">
       <table>
         <tr>
@@ -70,7 +71,11 @@
           <td class="parent-cell">
             <div ng-click="parentWalkRadiusClick()" class="grey icon marker-circle parent-marker"></div>
           </td>
-          <td>
+          <td class="parent-cell">
+            <i ng-click="parentRouteToggleClick()" class="fa fa-hand-o-right icon parent-marker"></i>
+          </td>
+          <td class="parent-cell">
+            <span class="more-text">more...</span>
           </td>
         </tr>
       </table>
@@ -124,7 +129,20 @@
           </tr>
         </table>
       </div>
+      <div ng-class="routeToggleDetailsVisibility" class="control-details route-toggle-details">
+        <table>
+          <tr ng-class="selectedHistoricRoute" ng-click="historicRouteSelect()">
+            <td class="first">
+              <i class="fa fa-hand-o-right icon"></i>
+            </td>
+            <td class="last">
+              <span>Historic Philadelphia</span>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
+    <!--endregion control panel-->
 
     <div class="logo-container">
       <i class="fa fa-home"></i>
