@@ -46,6 +46,17 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 			visible: false
 		}
 	};
+	$scope.poi3 = {
+		idKey: '0003', //TODO this needs to be unique
+		coords: {
+			latitude: 39.9720102, 
+			longitude: -75.1159984
+		},
+		options: {
+			icon: 'images/icons/icn-eye.svg',
+			visible: false
+		}
+	};
 	$scope.c1 = {
 		center: {
 			latitude: 39.972530, 
@@ -94,6 +105,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
             opacity: 0.1
         }
 	};
+	$scope.events = [];
 	//endregion scope object definitions
 
 	//region route definitions
@@ -225,9 +237,11 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	$scope.sightsMarkerSelect = function() {
 		if($scope.poi2.options.visible) {
 			$scope.poi2.options.visible = false;
+			$scope.poi3.options.visible = false;
 			$scope.selectedSights = 'unselected';
 		} else {
 			$scope.poi2.options.visible = true;
+			$scope.poi3.options.visible = true;
 			$scope.selectedSights = 'selected';
 		}
 	}
@@ -266,7 +280,18 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	}
 	//endregion route toggle
 
+	//dummy Events API call
+     $http.get('/events/google?days=4') //TODO testing number of days - will probably stick with 1 for final app
+     	.success(function(response) {
+     		$scope.events = response;
 
+     		if($scope.events.length == 0) {
+     			$scope.noEventsVisible = 'visible';
+     		}
+     	})
+     	.error(function(response) {
+     		debugger;
+     	});
 /*
 	//TODO Dummy weather API call.. will move into service layer (using lat long for 230 E Girard Ave, Philadelphia, PA 19125 according to Google maps)
 	$http.get('/weather/current?lat=39.9691568&long=-75.1327133') //https://api.forecast.io/forecast/f0f643b626c0788853800bcc4570696a/39.9691568,-75.1327133
@@ -280,11 +305,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
      	$scope.forecast = forecast;
      });
 
-     //dummy Eventful API call
-     $http.get('/events/list?app_key=Lqg82zJw6bv2bDG7&location=Philadelphia')
-     	.success(function(response) {
-     		debugger;
-     });
+     
 
 	//TODO temporary dummy data
 	$scope.showsList = [{

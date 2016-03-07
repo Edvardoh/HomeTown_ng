@@ -70,6 +70,53 @@ html, body {
 	    }
 	}
 
+	.event-panel {
+		width: 250px;
+
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		margin-bottom: 3px;
+		margin-left: 6px;
+		border-radius: 1px;
+		z-index: 1001;
+		background-color: #fff;
+
+		.panel-headline {
+			td {
+				text-align: center;
+				padding: 5px;
+			}
+		}
+
+		.event-row {
+			td {
+				&.first {
+					width: 50px;
+				}
+
+				&.last {
+					width: 200px;
+					max-width: 200px;
+				}
+
+				&.event-summary {
+				    overflow: hidden;
+				    text-overflow: ellipsis;
+				    white-space: nowrap;
+				}
+			}
+		}
+
+		.no-events-row {
+			display: none;
+
+			&.visible {
+				display: inherit;
+			}
+		}
+	}
+
 	.control-panel {
 		width: 250px;
 		position: absolute;

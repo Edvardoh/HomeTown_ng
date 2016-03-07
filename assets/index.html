@@ -31,6 +31,11 @@
                 coords="poi2.coords"
                 options="poi2.options">
       </ui-gmap-marker>
+      <ui-gmap-marker 
+                idKey="poi3.idKey" 
+                coords="poi3.coords"
+                options="poi3.options">
+      </ui-gmap-marker>
 
       <ui-gmap-circle 
                 center='c1.center'
@@ -63,9 +68,6 @@
       <table>
         <tr>
           <td class="parent-cell">
-            <i class="fa fa-bars icon settings"></i>
-          </td>
-          <td class="parent-cell">
             <i ng-click="parentMapMarkerClicked()" class="fa fa-map-marker icon parent-marker"></i>
           </td>
           <td class="parent-cell">
@@ -73,6 +75,9 @@
           </td>
           <td class="parent-cell">
             <i ng-click="parentRouteToggleClick()" class="fa fa-hand-o-right icon parent-marker"></i>
+          </td>
+          <td class="parent-cell">
+            <i class="fa fa-bars icon settings"></i>
           </td>
           <td class="parent-cell">
             <span class="more-text">more...</span>
@@ -143,6 +148,31 @@
       </div>
     </div>
     <!--endregion control panel-->
+
+    <!-- region event feed -->
+    <div class="event-panel">
+      <table>
+        <tr class="panel-headline">
+          <td colspan="2">
+            <strong>Happening Today</strong>
+          </td>
+        </tr>
+        <tr class="event-row" ng-repeat="event in events">
+          <td class="first">
+            {{event.start.dateTime | date:'HH:mm'}}
+          </td>
+          <td class="event-summary last">
+            {{event.summary}}
+          </td>
+        </tr>
+        <tr class="no-events-row" ng-class="noEventsVisible">
+          <td colspan="2">
+            <span>No events today.</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- endregion event feed -->
 
     <div class="logo-container">
       <i class="fa fa-home"></i>
