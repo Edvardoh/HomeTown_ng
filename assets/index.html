@@ -15,28 +15,11 @@
 
     <ui-gmap-google-map fullscreen-map center='map.center' zoom='map.zoom' options='map.options' control="map.control">
 
-      <ui-gmap-marker 
-                idKey="home.idKey" 
-                coords="home.coords"
-                options="home.options"
-                click="homeClicked"
-                infoContent="test123">
-      </ui-gmap-marker>
-      
-      <ui-gmap-marker 
-                idKey="poi1.idKey" 
-                coords="poi1.coords"
-                options="poi1.options">
-      </ui-gmap-marker>
-      <ui-gmap-marker 
-                idKey="poi2.idKey" 
-                coords="poi2.coords"
-                options="poi2.options">
-      </ui-gmap-marker>
-      <ui-gmap-marker 
-                idKey="poi3.idKey" 
-                coords="poi3.coords"
-                options="poi3.options">
+      <ui-gmap-marker ng-repeat="marker in markers"
+                idKey="{{marker.idKey}}" 
+                coords="{{marker.coords}}"
+                options="{{marker.options}}"
+                click="markerClicked">
       </ui-gmap-marker>
 
       <ui-gmap-circle 
@@ -79,7 +62,7 @@
             <i ng-click="parentRouteToggleClick()" class="fa fa-hand-o-right icon parent-marker"></i>
           </td>
           <td class="parent-cell">
-            <i class="fa fa-bars icon settings"></i>
+            <i ng-click="settingsClick()" class="fa fa-bars icon settings"></i>
           </td>
           <td class="parent-cell">
             <span class="more-text">more...</span>
@@ -148,6 +131,18 @@
           </tr>
         </table>
       </div>
+      <div ng-class="settingsPanelVisibility" class="control-details settings-panel">
+        <table>
+          <tr ng-click="poiManagerSelect()">
+            <td class="first">
+              <i class="fa fa-map-marker icon"></i>
+            </td>
+            <td class="last">
+              Manage Points of Interest
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
     <!--endregion control panel-->
 
@@ -175,6 +170,28 @@
       </table>
     </div>
     <!-- endregion event feed -->
+
+    <!-- region modal -->
+    <div class="modal-wrap">
+      <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{title}}</h3>
+        </div>
+        <div class="modal-body">
+          <form novalidate>
+            <div class="form-group" ng-repeat="field in fields">
+                <label>{{field.label}}</label>
+                <input type="field.type" ng-model="field.model"></input>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" ng-click="add(marker)">Add</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+      </script>
+    </div>
+    <!-- region modal -->
 
     <div class="logo-container">
       <i class="fa fa-home"></i>

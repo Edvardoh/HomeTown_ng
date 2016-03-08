@@ -1,4 +1,4 @@
-angular.module('HomeTown').controller('MainController', function($scope, $http, $filter, uiGmapIsReady) {
+angular.module('HomeTown').controller('MainController', function($scope, $uibModal, $http, $filter, uiGmapIsReady) {
 	//TODO dummy map object and marker (coordinates for 230 E Girard Ave Philadelphia, PA 19125)
 	
 	//region scope object definitions
@@ -113,6 +113,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
         }
 	};
 	$scope.events = [];
+	$scope.markers = [];
 	//endregion scope object definitions
 
 	//region route definitions
@@ -184,6 +185,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 		//first make all other detail panels invisible
 		$scope.mapMarkerDetailsVisibility = 'invisible';
 		$scope.routeToggleDetailsVisibility = 'invisible';
+		$scope.settingsPanelVisibility = 'invisible';
 
 		if($scope.walkRadiusDetailsVisibility == 'visible') {
 			$scope.walkRadiusDetailsVisibility = 'invisible';
@@ -225,6 +227,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 		//first make all other detail panels invisible
 		$scope.walkRadiusDetailsVisibility = 'invisible';
 		$scope.routeToggleDetailsVisibility = 'invisible';
+		$scope.settingsPanelVisibility = 'invisible';
 
 		if($scope.mapMarkerDetailsVisibility == 'visible') {
 			$scope.mapMarkerDetailsVisibility = 'invisible';
@@ -259,6 +262,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 		//first make all other detail panels invisible
 		$scope.walkRadiusDetailsVisibility = 'invisible';
 		$scope.mapMarkerDetailsVisibility = 'invisible';
+		$scope.settingsPanelVisibility = 'invisible';
 
 		if($scope.routeToggleDetailsVisibility == 'visible') {
 			$scope.routeToggleDetailsVisibility = 'invisible';
@@ -287,14 +291,90 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	}
 	//endregion route toggle
 
-	$scope.homeClicked = function(marker, event, scope) {
+	//region settings
+	$scope.settingsClick = function() {
+		//first make all other detail panels invisible
+		$scope.walkRadiusDetailsVisibility = 'invisible';
+		$scope.mapMarkerDetailsVisibility = 'invisible';
+		$scope.routeToggleDetailsVisibility = 'invisible';
+
+		if($scope.settingsPanelVisibility == 'visible') {
+			$scope.settingsPanelVisibility = 'invisible';
+		} else {
+			$scope.settingsPanelVisibility = 'visible';
+		}
+	}
+	$scope.poiManagerSelect = function() {
+		$scope.settingsPanelVisibility = 'invisible';
+
+		var modal = $uibModal.open({
+			animation: true,
+			templateUrl: 'myModalContent.html',
+			controller: 'ModalInstanceCtrl',
+			size: null,
+			resolve: {
+				fields: function() {
+					return [{
+						type: 'text',
+						label: 'Name',
+						model: 'marker.name'
+					},/*{
+						type: 'combo',
+						label: 'Type',
+						options: ['Grocery', 'Sights', 'Shopping']
+					},*/{
+						type: 'text',
+						label: 'Description',
+						model: 'marker.description'
+					},{
+						type: 'number',
+						label: 'Latitude',
+						model: 'marker.latitude'
+					},{
+						type: 'number',
+						label: 'Longitude',
+						model: 'marker.longitude'
+					}];
+				},
+
+				model: function() {
+					return 'marker';
+				},
+
+				title: function() {
+					return 'Add Point of Interest';
+				},
+
+				submitAction: function() {
+					return 'add(marker)';
+				}
+			}
+		});
+
+		modal.result.then(function (params) {
+	    	debugger;
+	    });
+	}
+	//endregion settings
+
+	$scope.markerClicked = function(marker, event, scope) {
 		var map = $scope.map.control.getGMap(),
 			infoWindow = new google.maps.InfoWindow({
+				//TODO content needs to be dynamic
 			content: '<strong>1421 Howard St, Philadelphia, PA 19122</strong><p>You are here. Welcome to NoFish!</p>'
 		});
 
 		infoWindow.open(map, marker);
 	};
+
+	//get markers
+	$http.get('/poi/list')
+		.success(function(response) {
+     		$scope.markers = response;
+     	})
+     	.error(function(response) {
+     		debugger;
+     	});
 
 	//dummy Events API call
      $http.get('/events/google?days=1') //TODO testing number of days - will probably stick with 1 for final app
@@ -368,4 +448,22 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 		ticketURL: 'http://ticketmaster.com'
 	}];
 */
+});
+
+angular.module('HomeTown').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, model, fields, title, submitAction) {
+
+  $scope.fields = fields;
+  $scope.title = title;
+  $scope.submitAction = submitAction;
+  $scope[model] = {};
+
+  $scope.add = function (marker) {
+  	debugger;
+
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 });
