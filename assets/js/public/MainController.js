@@ -10,7 +10,14 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 		zoom: 15,
 		options: {
 			disableDefaultUI: true,
-			zoomControl: true
+			zoomControl: true,
+			styles: [{
+		        featureType: "poi",
+		        elementType: "labels",
+		        stylers: [
+		              { visibility: "off" }
+		        ]
+			}]
 		},
 		control: {}
 	};
@@ -280,8 +287,17 @@ angular.module('HomeTown').controller('MainController', function($scope, $http, 
 	}
 	//endregion route toggle
 
+	$scope.homeClicked = function(marker, event, scope) {
+		var map = $scope.map.control.getGMap(),
+			infoWindow = new google.maps.InfoWindow({
+			content: '<strong>1421 Howard St, Philadelphia, PA 19122</strong><p>You are here. Welcome to NoFish!</p>'
+		});
+
+		infoWindow.open(map, marker);
+	};
+
 	//dummy Events API call
-     $http.get('/events/google?days=4') //TODO testing number of days - will probably stick with 1 for final app
+     $http.get('/events/google?days=1') //TODO testing number of days - will probably stick with 1 for final app
      	.success(function(response) {
      		$scope.events = response;
 

@@ -1,4 +1,4 @@
-@app-color: #3D5AFE;
+@app-color: #D84315;
 @accent-color: #37474F;
 @heading-color: #FFF3E0;
 @grey: #E0E0E0;
@@ -187,16 +187,16 @@ html, body {
 	/*endregion control panel*/
 
 	.logo-container {
-		background-color: lighten(@app-color, 40%);
+		background-color: #fff;
 		border-color: lighten(@app-color, 40%);
 		border-radius: 1px;
 		position: absolute;
-		padding: 3px;
+		padding: 4px;
 		top: 0;
 		left: 0;
-		font-size: 16px;
+		font-size: 24px;
 		font-weight: bold;
-		margin-bottom: 3px;
+		margin-top: 3px;
 		margin-left: 6px;
 		z-index: 1000;
 
@@ -205,11 +205,10 @@ html, body {
 		}
 
 		i {
-			color: @app-color;
+			color: @accent-color;
 		}
 
 		&:hover {
-			background-color: lighten(@app-color, 45%);
 			cursor: pointer;
 
 			span {
@@ -217,7 +216,7 @@ html, body {
 			}
 
 			i {
-				color: lighten(@app-color, 15%);
+				color: @app-color;
 			}
 		}
 	}
