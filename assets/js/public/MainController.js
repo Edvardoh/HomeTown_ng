@@ -1,6 +1,6 @@
-angular.module('HomeTown').controller('MainController', function($scope, $uibModal, $http, $filter, uiGmapIsReady) {
+angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$filter', '$uibModal',
+	function($scope, $http, $filter, $uibModal) {
 	//TODO dummy map object and marker (coordinates for 230 E Girard Ave Philadelphia, PA 19125)
-	
 	//region scope object definitions
 	$scope.map = { 
 		center: { 
@@ -192,7 +192,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 		} else {
 			$scope.walkRadiusDetailsVisibility = 'visible';
 		}
-	}
+	};
 	$scope.walkRadius5minSelect = function() {
 		if($scope.walkRadiusVisibile5min) {
 			$scope.walkRadiusVisibile5min = false;
@@ -201,7 +201,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 			$scope.walkRadiusVisibile5min = true;
 			$scope.selected5min = 'selected';
 		}
-	}
+	};
 	$scope.walkRadius10minSelect = function() {
 		if($scope.walkRadiusVisibile10min) {
 			$scope.walkRadiusVisibile10min = false;
@@ -210,7 +210,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 			$scope.walkRadiusVisibile10min = true;
 			$scope.selected10min = 'selected';
 		}
-	}
+	};
 	$scope.walkRadius15minSelect = function() {
 		if($scope.walkRadiusVisibile15min) {
 			$scope.walkRadiusVisibile15min = false;
@@ -219,7 +219,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 			$scope.walkRadiusVisibile15min = true;
 			$scope.selected15min = 'selected';
 		}
-	}
+	};
 	//endregion map circle toggle
 
 	//region map marker toggle
@@ -234,7 +234,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 		} else {
 			$scope.mapMarkerDetailsVisibility = 'visible';
 		}
-	}
+	};
 	$scope.shoppingMarkerSelect = function() {
 		if($scope.poi1.options.visible) {
 			$scope.poi1.options.visible = false;
@@ -243,7 +243,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 			$scope.poi1.options.visible = true;
 			$scope.selectedShopping = 'selected';
 		}
-	}
+	};
 	$scope.sightsMarkerSelect = function() {
 		if($scope.poi2.options.visible) {
 			$scope.poi2.options.visible = false;
@@ -254,7 +254,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 			$scope.poi3.options.visible = true;
 			$scope.selectedSights = 'selected';
 		}
-	}
+	};
 	//endregion map marker toggle
 
 	//region route toggle
@@ -269,7 +269,7 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 		} else {
 			$scope.routeToggleDetailsVisibility = 'visible';
 		}
-	}
+	};
 	$scope.historicRouteSelect = function() {
 		//TODO need a more robust way to toggle routes
 		var map = $scope.map.control.getGMap();
@@ -288,11 +288,12 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 			$scope.historicPhiladelphia(map);
 			$scope.selectedHistoricRoute = 'selected';
 		}
-	}
+	};
 	//endregion route toggle
 
 	//region settings
 	$scope.settingsClick = function() {
+		debugger;
 		//first make all other detail panels invisible
 		$scope.walkRadiusDetailsVisibility = 'invisible';
 		$scope.mapMarkerDetailsVisibility = 'invisible';
@@ -303,58 +304,32 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 		} else {
 			$scope.settingsPanelVisibility = 'visible';
 		}
-	}
+	};
 	$scope.poiManagerSelect = function() {
 		$scope.settingsPanelVisibility = 'invisible';
-
-		var modal = $uibModal.open({
+		$scope.newpoi = {};
+		debugger;
+		$scope.modalInstance = $uibModal.open({
 			animation: true,
-			templateUrl: 'myModalContent.html',
-			controller: 'ModalInstanceCtrl',
-			size: null,
-			resolve: {
-				fields: function() {
-					return [{
-						type: 'text',
-						label: 'Name',
-						model: 'marker.name'
-					},/*{
-						type: 'combo',
-						label: 'Type',
-						options: ['Grocery', 'Sights', 'Shopping']
-					},*/{
-						type: 'text',
-						label: 'Description',
-						model: 'marker.description'
-					},{
-						type: 'number',
-						label: 'Latitude',
-						model: 'marker.latitude'
-					},{
-						type: 'number',
-						label: 'Longitude',
-						model: 'marker.longitude'
-					}];
-				},
+			templateUrl: 'templates/add-poi-modal.html',
+			scope: $scope,
 
-				model: function() {
-					return 'marker';
-				},
-
-				title: function() {
-					return 'Add Point of Interest';
-				},
-
-				submitAction: function() {
-					return 'add(marker)';
-				}
-			}
 		});
 
-		modal.result.then(function (params) {
+		$scope.modalInstance.result.then(function (selectedItem) {
 	    	debugger;
 	    });
-	}
+	};
+	$scope.cancelAddPoi = function () {
+		$scope.modalInstance.dismiss('cancel');
+	};
+
+	$scope.addPoi = function() {
+		
+		debugger;
+
+		$scope.modalInstance.close('closed');
+	};
 	//endregion settings
 
 	$scope.markerClicked = function(marker, event, scope) {
@@ -448,22 +423,4 @@ angular.module('HomeTown').controller('MainController', function($scope, $uibMod
 		ticketURL: 'http://ticketmaster.com'
 	}];
 */
-});
-
-angular.module('HomeTown').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, model, fields, title, submitAction) {
-
-  $scope.fields = fields;
-  $scope.title = title;
-  $scope.submitAction = submitAction;
-  $scope[model] = {};
-
-  $scope.add = function (marker) {
-  	debugger;
-
-    $uibModalInstance.close();
-  };
-
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-});
+}]);

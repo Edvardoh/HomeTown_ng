@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add Point of Interest</h3>
+</div>
+<form name="form.poiManager" novalidate ng-submit="addPoi()">
+  <div class="modal-body">
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" name="name" class="form-control" ng-model="newpoi.name" required></input>
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" class="form-control" ng-model="newpoi.description"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Latitude</label>
+        <input type="number" name="lat" class="form-control" ng-model="newpoi.lat"></input>
+    </div>
+    <div class="form-group">
+        <label>Longitude</label>
+        <input type="number" name="lat" class="form-control" ng-model="newpoi.long"></input>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.poiManager.$invalid">Add</button>
+      <button class="btn btn-warning" ng-click="cancelAddPoi()">Cancel</button>
+  </div>
+</form>
