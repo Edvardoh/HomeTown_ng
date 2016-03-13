@@ -11,8 +11,8 @@ module.exports = {
 	attributes: {
 
 		id: {
-			type: 'string',
-			required: true,
+			type: 'integer',
+			autoIncrement: true,
 			unique: true
 		},
 

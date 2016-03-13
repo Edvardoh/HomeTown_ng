@@ -2,6 +2,10 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 	function($scope, $http, $filter, $uibModal) {
 	//TODO dummy map object and marker (coordinates for 230 E Girard Ave Philadelphia, PA 19125)
 	//region scope object definitions
+
+	//TODO this is a big no-no but I can't access $http in the addPoi function so I'm attaching to $scope for now
+	$scope.http = $http;
+
 	$scope.map = { 
 		center: { 
 			latitude: 39.972530, 
@@ -293,7 +297,6 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 
 	//region settings
 	$scope.settingsClick = function() {
-		debugger;
 		//first make all other detail panels invisible
 		$scope.walkRadiusDetailsVisibility = 'invisible';
 		$scope.mapMarkerDetailsVisibility = 'invisible';
@@ -308,25 +311,55 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 	$scope.poiManagerSelect = function() {
 		$scope.settingsPanelVisibility = 'invisible';
 		$scope.newpoi = {};
-		debugger;
+		
 		$scope.modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'templates/add-poi-modal.html',
-			scope: $scope,
-
+			scope: $scope
 		});
+		$scope.modalInstance.rendered.then(function() {
+			// Initialize google maps places input
+			var map = $scope.map.control.getGMap();
+			var input = document.getElementById('places-input');
+			$scope.autoComplete = new google.maps.places.Autocomplete(input, {types: ['geocode']});
 
-		$scope.modalInstance.result.then(function (selectedItem) {
-	    	debugger;
-	    });
+			// Bias the search box results towards current map viewport
+			$scope.autoComplete.bindTo('bounds', map);
+
+			$scope.autoComplete.addListener('place_changed', function() {
+				var place = $scope.autoComplete.getPlace();
+
+				$scope.newpoi.lat = place.geometry.location.lat();
+				$scope.newpoi.lng = place.geometry.location.lng();
+			});
+		});
 	};
 	$scope.cancelAddPoi = function () {
 		$scope.modalInstance.dismiss('cancel');
 	};
 
 	$scope.addPoi = function() {
+		var data = {
+			coords: {
+				latitude: $scope.newpoi.lat,
+				longitude: $scope.newpoi.lng
+			},
+			options: {
+				icon: 'images/icons/icn-home.svg' //TODO dummy icon
+			},
+			name: $scope.newpoi.name,
+			description: $scope.newpoi.description
+		}
 		
-		debugger;
+		//TODO couldn't get access to $http for some reason so this is a temporary workaround
+		$scope.http.post('/poi/create', data)
+			.success(function(response) {
+				// add marker to markers array
+				$scope.markers.push(response);
+			})
+			.error(function(response) {
+				debugger;
+			});
 
 		$scope.modalInstance.close('closed');
 	};

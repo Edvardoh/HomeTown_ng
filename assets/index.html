@@ -8,17 +8,17 @@
     
     <!--STYLES-->
     <!--STYLES END-->
-    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+    <script src='//maps.googleapis.com/maps/api/js?libraries=places&sensor=false'></script>
   </head>
 
   <body ng-app="HomeTown" ng-controller="MainController" ng-cloak>
 
     <ui-gmap-google-map fullscreen-map center='map.center' zoom='map.zoom' options='map.options' control="map.control">
 
-      <ui-gmap-marker ng-repeat="marker in markers"
-                idKey="{{marker.idKey}}" 
-                coords="{{marker.coords}}"
-                options="{{marker.options}}"
+      <ui-gmap-marker ng-repeat="marker in markers" 
+                idKey="marker.id" 
+                coords="marker.coords" 
+                options="marker.options" 
                 click="markerClicked">
       </ui-gmap-marker>
 
