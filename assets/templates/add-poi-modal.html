@@ -8,6 +8,14 @@
         <input type="text" name="name" class="form-control" ng-model="newpoi.name" required>
     </div>
     <div class="form-group">
+        <label>Type:</label>
+        <select name="type" class="form-control" ng-model="newpoi.type" required>
+          <option value="HOME"><i class="fa fa-home"></i>Home</option>
+          <option value="SHOPPING"><i class="fa fa-briefcase"></i>Shopping</option>
+          <option value="SIGHTS"><i class="fa fa-eye"></i>Sights</option>
+        </select>
+    </div>
+    <div class="form-group">
         <label>Description</label>
         <textarea name="description" class="form-control" ng-model="newpoi.description"></textarea>
     </div>

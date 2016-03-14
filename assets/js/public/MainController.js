@@ -25,49 +25,6 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 		},
 		control: {}
 	};
-	$scope.home = {
-		idKey: '0000', //TODO this needs to be unique
-		coords: {
-			latitude: 39.972530, 
-			longitude: -75.135993
-		},
-		options: {
-			icon: 'images/icons/icn-home.svg'
-		}
-	};
-	$scope.poi1 = {
-		idKey: '0001', //TODO this needs to be unique
-		coords: {
-			latitude: 39.971129, 
-			longitude: -75.134159
-		},
-		options: {
-			icon: 'images/icons/icn-briefcase.svg',
-			visible: false
-		}
-	};
-	$scope.poi2 = {
-		idKey: '0002', //TODO this needs to be unique
-		coords: {
-			latitude: 39.966512, 
-			longitude: -75.129990
-		},
-		options: {
-			icon: 'images/icons/icn-eye.svg',
-			visible: false
-		}
-	};
-	$scope.poi3 = {
-		idKey: '0003', //TODO this needs to be unique
-		coords: {
-			latitude: 39.9720102, 
-			longitude: -75.1159984
-		},
-		options: {
-			icon: 'images/icons/icn-eye.svg',
-			visible: false
-		}
-	};
 	$scope.c1 = {
 		center: {
 			latitude: 39.972530, 
@@ -240,23 +197,33 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 		}
 	};
 	$scope.shoppingMarkerSelect = function() {
-		if($scope.poi1.options.visible) {
-			$scope.poi1.options.visible = false;
-			$scope.selectedShopping = 'unselected';
-		} else {
-			$scope.poi1.options.visible = true;
-			$scope.selectedShopping = 'selected';
+		var i = 0,
+			markers = $scope.markers;
+		for(i; i<markers.length; i++) {
+			if(markers[i].type == 'SHOPPING') {
+				if(markers[i].options.visible) {
+					$scope.markers[i].options.visible = false;
+					$scope.selectedShopping = 'unselected';
+				} else {
+					$scope.markers[i].options.visible = true;
+					$scope.selectedShopping = 'selected';
+				}
+			}
 		}
 	};
 	$scope.sightsMarkerSelect = function() {
-		if($scope.poi2.options.visible) {
-			$scope.poi2.options.visible = false;
-			$scope.poi3.options.visible = false;
-			$scope.selectedSights = 'unselected';
-		} else {
-			$scope.poi2.options.visible = true;
-			$scope.poi3.options.visible = true;
-			$scope.selectedSights = 'selected';
+		var i = 0,
+			markers = $scope.markers;
+		for(i; i<markers.length; i++) {
+			if(markers[i].type == 'SIGHTS') {
+				if(markers[i].options.visible) {
+					$scope.markers[i].options.visible = false;
+					$scope.selectedSights = 'unselected';
+				} else {
+					$scope.markers[i].options.visible = true;
+					$scope.selectedSights = 'selected';
+				}
+			}
 		}
 	};
 	//endregion map marker toggle
@@ -339,16 +306,30 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 	};
 
 	$scope.addPoi = function() {
+		var icon = '';
+		switch($scope.newpoi.type) {
+			case 'HOME':
+				icon = 'images/icons/icn-home.svg'
+			break;
+			case 'SHOPPING':
+				icon = 'images/icons/icn-briefcase.svg'
+			break;
+			case 'SIGHTS':
+				icon = 'images/icons/icn-eye.svg'
+			break;
+		}
+
 		var data = {
 			coords: {
 				latitude: $scope.newpoi.lat,
 				longitude: $scope.newpoi.lng
 			},
 			options: {
-				icon: 'images/icons/icn-home.svg' //TODO dummy icon
+				icon: icon
 			},
 			name: $scope.newpoi.name,
-			description: $scope.newpoi.description
+			description: $scope.newpoi.description,
+			type: $scope.newpoi.type
 		}
 		
 		//TODO couldn't get access to $http for some reason so this is a temporary workaround
@@ -366,19 +347,42 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 	//endregion settings
 
 	$scope.markerClicked = function(marker, event, scope) {
-		var map = $scope.map.control.getGMap(),
-			infoWindow = new google.maps.InfoWindow({
-				//TODO content needs to be dynamic
-			content: '<strong>1421 Howard St, Philadelphia, PA 19122</strong><p>You are here. Welcome to NoFish!</p>'
-		});
+		// close all previous infowindows and open an infowindow with the appropriate marker content
+		if($scope.infoWindow) {
+			$scope.infoWindow.close();
+		}
 
-		infoWindow.open(map, marker);
+		var i=0,
+			markers = $scope.markers,
+			len = $scope.markers.length;
+		for(i; i<len; i++) {
+			if(markers[i].id == marker.key) {
+				var map = $scope.map.control.getGMap(),
+					name = markers[i].name ? markers[i].name : 'Empty',
+					desc = markers[i].description ? markers[i].description : '';
+					
+					$scope.infoWindow = new google.maps.InfoWindow({
+						content: '<strong>' + name  + '</strong><p>' + desc + '</p>'
+					});
+
+				$scope.infoWindow.open(map, marker);
+			}
+		}
 	};
 
 	//get markers
 	$http.get('/poi/list')
 		.success(function(response) {
+			var i = 0;
+			for (i; i<response.length; i++) {
+				response[i].options.visible = true;
+			}
+
      		$scope.markers = response;
+
+     		// sync up the marker toggle
+     		$scope.selectedShopping = 'selected';
+     		$scope.selectedSights = 'selected';
      	})
      	.error(function(response) {
      		debugger;
