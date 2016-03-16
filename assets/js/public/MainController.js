@@ -81,7 +81,7 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 	$scope.historicPhiladelphia = function(map) {
 		//TODO really need to clean up markers to make route appear more seamless
 		// note direction service cannot process TRANSIT requests with multiple waypoints, need to break up into multiple requests
-		$scope.directionMarkers = {};
+		$scope.directionMarkers = [];
         var directionsService = new google.maps.DirectionsService(),
 			request1 = {
 				origin: '1421 N Howard St, Philadelphia, PA',
@@ -89,10 +89,19 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 				travelMode: google.maps.TravelMode.TRANSIT
 			},
 			request2 = {
-				origin: '126 Elfreths Alley, Philadelphia, PA 19106',
-				destination: '520 Chestnut St, Philadelphia, PA 19106',
+				origin: '126 Elfreths Alley, Philadelphia, PA 19106', //elfreths alley
+				destination: '6th St & Market St, Philadelphia, PA 19106', //liberty bell
 				waypoints: [{
-					location: '6th St & Market St, Philadelphia, PA 19106', //liberty bell
+					location: '239 Arch St, Philadelphia, PA 19106', //betsy ross house
+					stopover: true
+				},{
+					location: '20 N American St, Philadelphia, PA 19106', //christ church
+					stopover: true
+				},{
+					location: '211 South Christopher Columbus Boulevard, Philadelphia, PA 19106', //independence seaport
+					stopover: true
+				},{
+					location: '520 Chestnut St, Philadelphia, PA 19106', //independence hall
 					stopover: true
 				}],
 				optimizeWaypoints: true,
@@ -117,22 +126,94 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 	      		$scope.directionsDisplay2.setDirections(result);
 	    	}
 
-	    	//add markers
+	    	//TODO region dummy add markers (this will all be done in the backend)
       		var route = result.routes[0],
-      		icon = 'images/icons/icn-eye.svg';
-      		$scope.directionMarkers.marker0 = new google.maps.Marker({
+      			icon = 'images/icons/icn-eye.svg';
+
+      		$scope.directionMarkers[0] = new google.maps.Marker({
   				position: route.legs[0].start_location,
   				map: map,
-  				icon: icon
+  				//icon: icon,
+  				label: '1'
+  			});
+  			$scope.directionMarkers[0].addListener('click', function() {
+  				var infoWindow = new google.maps.InfoWindow({
+  					content: '<p><strong>Elfreths Alley</strong></p><p>The nation\'s oldest continuously inhabited residential street.</p>'
+  				});
+
+  				infoWindow.open(map, $scope.directionMarkers[0]);
   			});
 
-      		for(var i=0; i<route.legs.length; i++) {
-      			$scope.directionMarkers['marker' + i+1] = new google.maps.Marker({
-      				position: route.legs[i].end_location,
-      				map: map,
-      				icon: icon
-      			});
-      		}
+  			$scope.directionMarkers[1] = new google.maps.Marker({
+  				position: route.legs[0].end_location,
+  				map: map,
+  				//icon: icon,
+  				label: '2'
+  			});
+  			$scope.directionMarkers[1].addListener('click', function() {
+  				var infoWindow = new google.maps.InfoWindow({
+  					content: '<p><strong>Betsy Ross House</strong></p><p>Birthplace of the American Flag.</p>'
+  				});
+
+  				infoWindow.open(map, $scope.directionMarkers[1]);
+  			});
+
+  			$scope.directionMarkers[2] = new google.maps.Marker({
+  				position: route.legs[1].end_location,
+  				map: map,
+  				//icon: icon,
+  				label: '3'
+  			});
+  			$scope.directionMarkers[2].addListener('click', function() {
+  				var infoWindow = new google.maps.InfoWindow({
+  					content: '<p><strong>Christ Church</strong></p><p>Founded in 1695, burial grounds include Benjamin Franklin\'s tomb.</p>'
+  				});
+
+  				infoWindow.open(map, $scope.directionMarkers[2]);
+  			});
+
+  			$scope.directionMarkers[3] = new google.maps.Marker({
+  				position: route.legs[2].end_location,
+  				map: map,
+  				//icon: icon,
+  				label: '4'
+  			});
+  			$scope.directionMarkers[3].addListener('click', function() {
+  				var infoWindow = new google.maps.InfoWindow({
+  					content: '<p><strong>Independence Seaport Museum</strong></p><p>An interactive museum exploring Philadelphia\'s maritime heritage.</p>'
+  				});
+
+  				infoWindow.open(map, $scope.directionMarkers[3]);
+  			});
+
+  			$scope.directionMarkers[4] = new google.maps.Marker({
+  				position: route.legs[3].end_location,
+  				map: map,
+  				//icon: icon,
+  				label: '5'
+  			});
+  			$scope.directionMarkers[4].addListener('click', function() {
+  				var infoWindow = new google.maps.InfoWindow({
+  					content: '<p><strong>Independence Hall</strong></p><p>Birthplace of the Declaration of Independence and the Constitution.</p>'
+  				});
+
+  				infoWindow.open(map, $scope.directionMarkers[4]);
+  			});
+
+  			$scope.directionMarkers[5] = new google.maps.Marker({
+  				position: route.legs[4].end_location,
+  				map: map,
+  				//icon: icon,
+  				label: '6'
+  			});
+  			$scope.directionMarkers[5].addListener('click', function() {
+  				var infoWindow = new google.maps.InfoWindow({
+  					content: '<p><strong>Liberty Bell Center</strong></p><p>Dramatic home of the internationally known symbol of freedom.</p>'
+  				});
+
+  				infoWindow.open(map, $scope.directionMarkers[5]);
+  			});
+  			// endregion dummy add markers
 		});
     };
 	//endregion route definitions
@@ -250,8 +331,8 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 
 			$scope.directionsDisplay1.setMap(null);
 			$scope.directionsDisplay2.setMap(null);
-			for(var marker in $scope.directionMarkers) {
-				$scope.directionMarkers[marker].setMap(null);
+			for(var i=0; i<$scope.directionMarkers.length; i++) {
+				$scope.directionMarkers[i].setMap(null);
 			}
 
 			$scope.selectedHistoricRoute = 'unselected';
