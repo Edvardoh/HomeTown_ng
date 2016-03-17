@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "async": "^1.5.2",
     "ejs": "~0.8.4",
     "forecastio": "~0.2.0",
     "google-auth-library": "^0.9.7",

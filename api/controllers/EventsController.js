@@ -67,27 +67,66 @@ module.exports = {
 		 * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
 		 */
 		function listEvents(auth) {
-		  var calendar = google.calendar('v3');
-		  var today = new Date();
-		  var maxDate = new Date();
+			var calendar = google.calendar('v3');
+		  	var today = new Date();
+		  	var maxDate = new Date();
 		  
-		  maxDate.setDate(today.getDate() + days);
+		  	maxDate.setDate(today.getDate() + days);
 
-		  calendar.events.list({
-		    auth: auth,
-		    calendarId: 'pqd50uuaupt9jmp3mc2gh82jdg@group.calendar.google.com',
-		    timeMin: today.toISOString(),
-		    timeMax: maxDate.toISOString(),
-		    singleEvents: true,
-		    orderBy: 'startTime'
-		  }, function(err, response) {
-			    if (err) {
-			      console.log('The API returned an error: ' + err);
-			      return;
-			    }
-			    // send events as an array
-			    res.send(response.items);
+		  	//TODO this is bad because it's synchronous.. couldn't get async module to work
+		  	calendar.events.list({
+				auth: auth,
+				calendarId: 'pqd50uuaupt9jmp3mc2gh82jdg@group.calendar.google.com',
+				timeMin: today.toISOString(),
+				timeMax: maxDate.toISOString(),
+				singleEvents: true,
+				orderBy: 'startTime'
+			}, function(err, response) {
+				if (err) {
+					console.log('The API returned an error: ' + err);
+				    	return;
+					}
+
+			    var events = response.items;
+
+			    calendar.events.list({
+					auth: auth,
+					calendarId: '9aggcro7masa7g5sf1ta58cn44@group.calendar.google.com',
+					timeMin: today.toISOString(),
+					timeMax: maxDate.toISOString(),
+					singleEvents: true,
+					orderBy: 'startTime'
+				}, function(err, response) {
+					if (err) {
+						console.log('The API returned an error: ' + err);
+					    	return;
+						}
+					
+				    events = events.concat(response.items);
+
+				    events = parseEventLinks(events);
+
+				    res.send(events);
+				});
 			});
+		}
+
+		function parseEventLinks(events) {
+			//TODO: need a more robust way to get event links with referral codes
+			var i = 0;
+			var len = events.length;
+
+			for(i; i<len; i++) {
+				events[i].bookingLink = '';
+
+				if(events[i].organizer && events[i].organizer.displayName.indexOf('Free Tours by Foot - Philadelphia') > -1) {
+					events[i].bookingLink = 'http://www.freetoursbyfoot.com/philadelphia-tours/book-online/';
+				} else if(events[i].description.indexOf('Book:') > -1) {
+					events[i].bookingLink = events[i].description.substring(events[i].description.indexOf('Book:') + 5);
+				}
+			}
+
+			return events;
 		}
 	},
 

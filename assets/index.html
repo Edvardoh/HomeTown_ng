@@ -159,7 +159,7 @@
             {{event.start.dateTime | date:'HH:mm'}}
           </td>
           <td class="event-summary last">
-            {{event.summary}}
+            <a href="{{event.bookingLink}}" target="_blank">{{event.summary}}</a>
           </td>
         </tr>
         <tr class="no-events-row" ng-class="noEventsVisible">
