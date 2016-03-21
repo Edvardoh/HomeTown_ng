@@ -2,6 +2,7 @@
 @accent-color: #37474F;
 @heading-color: #FFF3E0;
 @grey: #E0E0E0;
+@borderGrey: #CACACA;
 @blue: #2196F3;
 @green: #66BB6A;
 @orange: #FF9800;
@@ -71,7 +72,7 @@ html, body {
 	}
 
 	.event-panel {
-		width: 250px;
+		width: 300px;
 
 		position: absolute;
 		bottom: 0;
@@ -82,37 +83,46 @@ html, body {
 		z-index: 1001;
 		background-color: #fff;
 
-		.panel-headline {
-			td {
-				text-align: center;
-				padding: 5px;
-			}
-		}
+		table {
+			width: 100%;
 
-		.event-row {
-			td {
-				&.first {
-					width: 50px;
-				}
+			.panel-headline {
+				border-bottom: 1px solid @borderGrey;
 
-				&.last {
-					width: 200px;
-					max-width: 200px;
-				}
-
-				&.event-summary {
-				    overflow: hidden;
-				    text-overflow: ellipsis;
-				    white-space: nowrap;
+				td {
+					text-align: center;
+					padding: 5px;
 				}
 			}
-		}
 
-		.no-events-row {
-			display: none;
+			.event-row {
+				td {
+					padding-top: 5px;
 
-			&.visible {
-				display: inherit;
+					&.first {
+						padding-left: 8px;
+						width: 80px;
+					}
+
+					&.last {
+						width: 200px;
+						max-width: 200px;
+					}
+
+					&.event-summary {
+					    overflow: hidden;
+					    text-overflow: ellipsis;
+					    white-space: nowrap;
+					}
+				}
+			}
+
+			.no-events-row {
+				display: none;
+
+				&.visible {
+					display: inherit;
+				}
 			}
 		}
 	}
@@ -144,7 +154,7 @@ html, body {
 		}
 
 		.control-details {
-			border-top: 1px solid #bdbdbd;
+			border-top: 1px solid @borderGrey;
 			display: none;
 			width: 250px;
 

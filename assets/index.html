@@ -156,7 +156,7 @@
         </tr>
         <tr class="event-row" ng-repeat="event in events">
           <td class="first">
-            {{event.start.dateTime | date:'HH:mm'}}
+            {{event.start.dateTime | date:'h:mm a'}}
           </td>
           <td class="event-summary last">
             <a href="{{event.bookingLink}}" target="_blank">{{event.summary}}</a>

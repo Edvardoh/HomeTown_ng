@@ -109,11 +109,13 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 			};
 		$scope.directionsDisplay1 = new google.maps.DirectionsRenderer({
 			map: map,
-			suppressMarkers: true
+			suppressMarkers: true,
+			preserveViewport: true
 		});
 		$scope.directionsDisplay2 = new google.maps.DirectionsRenderer({
 			map: map,
-			suppressMarkers: true
+			suppressMarkers: true,
+			preserveViewport: true
 		});
 
 		directionsService.route(request1, function(result, status) {
