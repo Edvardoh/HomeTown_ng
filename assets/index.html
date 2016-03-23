@@ -117,6 +117,30 @@
               <span>Sights</span>
             </td>
           </tr>
+          <tr ng-class="selectedGrocery" ng-click="groceryMarkerSelect()">
+            <td class="first">
+              <i class="fa fa-shopping-cart icon"></i>
+            </td>
+            <td class="last">
+              <span>Grocery</span>
+            </td>
+          </tr>
+          <tr ng-class="selectedRestaurants" ng-click="restaurantsMarkerSelect()">
+            <td class="first">
+              <i class="fa fa-cutlery icon"></i>
+            </td>
+            <td class="last">
+              <span>Restaurants</span>
+            </td>
+          </tr>
+          <tr ng-class="selectedBars" ng-click="barsMarkerSelect()">
+            <td class="first">
+              <i class="fa fa-beer icon"></i>
+            </td>
+            <td class="last">
+              <span>Bars</span>
+            </td>
+          </tr>
         </table>
       </div>
       <div ng-class="routeToggleDetailsVisibility" class="control-details route-toggle-details">

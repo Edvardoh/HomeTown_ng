@@ -309,6 +309,51 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 			}
 		}
 	};
+	$scope.groceryMarkerSelect = function() {
+		var i = 0,
+			markers = $scope.markers;
+		for(i; i<markers.length; i++) {
+			if(markers[i].type == 'GROCERY') {
+				if(markers[i].options.visible) {
+					$scope.markers[i].options.visible = false;
+					$scope.selectedGrocery = 'unselected';
+				} else {
+					$scope.markers[i].options.visible = true;
+					$scope.selectedGrocery = 'selected';
+				}
+			}
+		}
+	};
+	$scope.restaurantsMarkerSelect = function() {
+		var i = 0,
+			markers = $scope.markers;
+		for(i; i<markers.length; i++) {
+			if(markers[i].type == 'RESTAURANTS') {
+				if(markers[i].options.visible) {
+					$scope.markers[i].options.visible = false;
+					$scope.selectedRestaurants = 'unselected';
+				} else {
+					$scope.markers[i].options.visible = true;
+					$scope.selectedRestaurants = 'selected';
+				}
+			}
+		}
+	};
+	$scope.barsMarkerSelect = function() {
+		var i = 0,
+			markers = $scope.markers;
+		for(i; i<markers.length; i++) {
+			if(markers[i].type == 'BARS') {
+				if(markers[i].options.visible) {
+					$scope.markers[i].options.visible = false;
+					$scope.selectedBars = 'unselected';
+				} else {
+					$scope.markers[i].options.visible = true;
+					$scope.selectedBars = 'selected';
+				}
+			}
+		}
+	};
 	//endregion map marker toggle
 
 	//region route toggle
@@ -400,6 +445,15 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 			case 'SIGHTS':
 				icon = 'images/icons/icn-eye.svg'
 			break;
+			case 'GROCERY':
+				icon = 'images/icons/icn-shopping-cart.svg'
+			break;
+			case 'RESTAURANTS':
+				icon = 'images/icons/icn-cutlery.svg'
+			break;
+			case 'BARS':
+				icon = 'images/icons/icn-beer.svg'
+			break;
 		}
 
 		var data = {
@@ -408,7 +462,8 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
 				longitude: $scope.newpoi.lng
 			},
 			options: {
-				icon: icon
+				icon: icon,
+				visible: true
 			},
 			name: $scope.newpoi.name,
 			description: $scope.newpoi.description,
@@ -466,6 +521,9 @@ angular.module('HomeTown').controller('MainController', [ '$scope', '$http', '$f
      		// sync up the marker toggle
      		$scope.selectedShopping = 'selected';
      		$scope.selectedSights = 'selected';
+     		$scope.selectedGrocery = 'selected';
+     		$scope.selectedRestaurants = 'selected';
+     		$scope.selectedBars = 'selected';
      	})
      	.error(function(response) {
      		debugger;
